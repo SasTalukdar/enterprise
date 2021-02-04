@@ -38,7 +38,7 @@ def tgp(m,d,h):
 
 def max_wind(lon,lat,y,m,d,h,res):
     ga('reinit')
-    ga('sdfopen u_v_10m/era5_hourly_srf'+str(y)+'.nc')
+    ga('sdfopen /home/picard/sas/mov/data/ecmwf/u_v_10m/era5_hourly_srf'+str(y)+'.nc')
     t2=t(m,d,h)
     ga('set t '+str(t2-run)+' '+str(t2+run))
     ga('set lat '+str(lat-4)+' '+str(lat+4))
@@ -71,7 +71,7 @@ res=27.75
 ''' Put the resolution of the data in km here '''
 year_rec={}
 max_w=[]
-for year in range(1982, 2021):
+for year in range(1999, 2000):
     print('Calculation running for '+str(year))
     year_rec[year]={}
     #rec_cord=[] # Previous record
@@ -92,7 +92,7 @@ for year in range(1982, 2021):
                 ref_date=dt.datetime(year,mon,day,hour)
                 z_all=[]
                 ga('reinit')
-                ga('sdfopen gp/era5_hourly_gp_850_'+str(year)+'.nc')
+                ga('sdfopen /home/picard/sas/mov/data/ecmwf/gp/era5_hourly_gp_850_'+str(year)+'.nc')
                 ga('set lat 0 35')
                 ga('set lon 40 90')
                 for dates in date_range(start=ref_date-dt.timedelta(hours=504),end=ref_date+dt.timedelta(hours=1)):
@@ -113,7 +113,7 @@ for year in range(1982, 2021):
                 t2=t(mon,day,hour)
                 for time in range(t2-run,t2+run+1):
                     ga('reinit')
-                    ga('sdfopen u_v_gp/era5_hourly_u_v_gp_850_'+str(year)+'.nc')
+                    ga('sdfopen /home/picard/sas/mov/data/ecmwf/u_v_gp/era5_hourly_u_v_gp_850_'+str(year)+'.nc')
                     ga('set t '+str(time))
                     ga('vor=hcurl(u,v)')
                     ga('set lat 0 35')
@@ -187,7 +187,7 @@ for year in range(1982, 2021):
             
                 ''' Find the points with surface wind speeds greater than 8.5 m/s within 400 km north '''            
                 ga('reinit')
-                ga('sdfopen u_v_10m/era5_hourly_srf'+str(year)+'.nc')
+                ga('sdfopen /home/picard/sas/mov/data/ecmwf/u_v_10m/era5_hourly_srf'+str(year)+'.nc')
                 ga('set lat 0 35')
                 ga('set lon 40 90')
                 ga('set t '+str(t2-run)+' '+str(t2+run))
@@ -313,8 +313,8 @@ for year in range(1982, 2021):
     print('creating csv file')
     #for year in tg_tqdm(year_rec, '1582179762:AAGbwgXCsNhQUWT35qGNGkTorAs-xa9Cwfk', '1250857525',desc='creating csv file') :
     for time in year_rec[year]:
-        line=[]
         for i in range(len(year_rec[year][time][0])):
+            line=[]
             line.append(time.year)
             line.append(time.month)
             line.append(time.day)
@@ -322,10 +322,10 @@ for year in range(1982, 2021):
             line.append(year_rec[year][time][0][i])
             line.append(year_rec[year][time][1][i])
             line=line+max_wind(year_rec[year][time][0][i],year_rec[year][time][1][i],time.year,time.month,time.day,time.hour,res)
-        rows.append(line)
+            rows.append(line)
                                                                                                             
     import csv
-    filename = 'mean_results/mov_records_'+str(year)+'.csv'
+    filename = '/home/picard/git_repo/results/mov_records_'+str(year)+'.csv'
     with open(filename, 'w') as csvfile: 
         csvwriter = csv.writer(csvfile)  
         csvwriter.writerow(fields)
