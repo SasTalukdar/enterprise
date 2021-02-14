@@ -14,3 +14,5 @@ for year in range(1982,2021):
             if [row.month,row.day,row.hour,row.latitude,row.longitude] in ref_list:
                 df['check'][i]=1
         df.to_csv('/home/picard/git_repo/results/mov_records_'+str(year)+'.csv',index=False)
+        
+        print(str(year)+'  '+str(len(ref_list))+' '+str(len(df[df.check==1])))
