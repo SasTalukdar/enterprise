@@ -15,8 +15,7 @@ import numpy as np
 import datetime as dt
 from pandas import date_range
 import pandas as pd
-#from tqdm import tqdm
-#from tg_tqdm import tg_tqdm
+from use_synthetic_vortex import cal_err
 
 ga=Grads(verbose=False)
 
@@ -72,7 +71,7 @@ res=27.75
 ''' Put the resolution of the data in km here '''
 year_rec={}
 max_w=[]
-for year in range(1999, 2000):
+for year in range(1982, 2021):
     imd_data=pd.read_csv('/home/picard/sas/mov/data/ecmwf/imd_files/'+str(year)+'.csv')
     if len(imd_data)>0:
         print('Calculation running for '+str(year))
@@ -222,7 +221,13 @@ for year in range(1999, 2000):
                     for co_ord in srf_wnd :
                         row=co_ord[0]
                         col=co_ord[1]
-    
+                        radius=350
+                        mid=int((radius/111.1)*4)
+                        err=cal_err(u[row-mid:row+mid+1,col-mid:col+mid+1],v[row-mid:row+mid+1,col-mid:col+mid+1],res,radius)
+                        if err<=0.3833866:
+                            wnd_dir.append(co_ord)
+                            
+                        '''
                         if (((row>=6) and (row<=row_max)) and ((col>=6) and (col<=col_max))):
                             if ((np.sign(u[row-6][col])==1) and (np.sign(u[row+6][col])==-1)) :
                                 if ((np.sign(v[row][col-6])==-1) and (np.sign(v[row][col+6])==1)):
@@ -240,7 +245,7 @@ for year in range(1999, 2000):
                                             if ((np.sign(u[row+6][col-6])==-1) and (np.sign(v[row+6][col-6])==-1)):
                                                 if ((np.sign(u[row+6][col+6])==-1) and (np.sign(v[row+6][col+6])==1)):
                                                     wnd_dir.append(co_ord)
-                
+                        '''
                         # In the above lines, it has been taken into notice that the direction of row
                         # and the direction of lattitude are opposite.
                 
@@ -268,6 +273,7 @@ for year in range(1999, 2000):
                                     lats.append(latt)
                                     lons.append(long)
                     ''' Only the required lat and lon values are recorded '''
+                    
                     if len(lats)>0:
                         year_rec[year][dt.datetime(year,mon,day,hour)]=[lons, lats]
                     '''
@@ -280,7 +286,7 @@ for year in range(1999, 2000):
                         for j in range(len(rec_cord)):
                             dist=np.sqrt((lats[i]-rec_cord[j][0])**2+(lons[i]-rec_cord[j][1])**2)
                             dist=dist*res
-                            if (dist<=36) :
+                            if (dist<=36+res) :
                                 hist_marker=1
                                 latss.append(lats[i])
                                 lonss.append(lons[i])
@@ -307,11 +313,11 @@ for year in range(1999, 2000):
                     # Record lat lon values for the next day 
                     rec_cord=[]
                     for i in range(len(lats)):
-                        rec_cord.append([lats[i],lons[i]]) '''
-                        
+                        rec_cord.append([lats[i],lons[i]])   '''          
+            
         fields=['year','month','day','hour','longitude','latitude','maximum_wind','MW_lon','MW_lat','MW_radius']
     
-        rows=[]
+        row=[]
         print('creating csv file')
         #for year in tg_tqdm(year_rec, '1582179762:AAGbwgXCsNhQUWT35qGNGkTorAs-xa9Cwfk', '1250857525',desc='creating csv file') :
         for time in year_rec[year]:
@@ -324,12 +330,61 @@ for year in range(1999, 2000):
                 line.append(year_rec[year][time][0][i])
                 line.append(year_rec[year][time][1][i])
                 line=line+max_wind(year_rec[year][time][0][i],year_rec[year][time][1][i],time.year,time.month,time.day,time.hour,res)
-                rows.append(line)
-                                                                                                                
+                row.append(line)
+        
+        mod_row=[]
+        temp_list=[]
+        i=0
+        q=1
+        temp=-99
+        while i<=len(row)-3:
+            #print(i)
+            if row[i] not in mod_row:
+                if i==len(row)-3:
+                     if q<=len(temp_list):
+                        if row[temp_list[q]] not in mod_row:
+                            i=temp_list[q]
+                        q+=1
+                l=0
+                while dt.datetime(row[i][0],row[i][1],row[i][2],row[i][3])==dt.datetime(row[i+l+1][0],row[i+l+1][1],row[i+l+1][2],row[i+l+1][3]):
+                    l=l+1
+                k=0
+                while(dt.datetime(row[i+l+1][0],row[i+l+1][1],row[i+l+1][2],row[i+l+1][3])==dt.datetime(row[i+k+l+2][0],row[i+k+l+2][1],row[i+k+l+2][2],row[i+k+l+2][3])):
+                    k=k+1
+                for j in range(i+l,i+l+k+1):
+                    dist=np.sqrt((row[i][5]-row[j+1][5])**2+(row[i][4]-row[j+1][4])**2)
+                    dist=dist*res
+                    if len(mod_row)>0:
+                        dist=np.sqrt((row[i][5]-mod_row[-1][5])**2+(row[i][4]-mod_row[-1][4])**2)
+                        dist=dist*res
+                        if dt.datetime(row[i][0],row[i][1],row[i][2],row[i][3])-dt.datetime(mod_row[-1][0],mod_row[-1][1],mod_row[-1][2],mod_row[-1][3])==dt.timedelta(hours=1) and dist<=36+res:
+                            mod_row.append(row[i])
+                        else:
+                            dist=np.sqrt((row[i][5]-row[j+1][5])**2+(row[i][4]-row[j+1][4])**2)
+                            dist=dist*res
+                            check=0
+                            if dt.datetime(row[j+1][0],row[j+1][1],row[j+1][2],row[j+1][3])-dt.datetime(row[i][0],row[i][1],row[i][2],row[i][3])==dt.timedelta(hours=1) and dist<=36+res:
+                                for p in range(j,j+k+1):
+                                    dist=np.sqrt((row[p][5]-mod_row[-1][5])**2+(row[p][4]-mod_row[-1][4])**2)
+                                    dist=dist*res
+                                    if dt.datetime(row[p][0],row[p][1],row[p][2],row[p][3])-dt.datetime(mod_row[-1][0],mod_row[-1][1],mod_row[-1][2],mod_row[-1][3])==dt.timedelta(hours=1) and dist<=36+res:
+                                        check=1
+                                if check==1 :
+                                    if temp==-99:
+                                        temp=i
+                                    else:
+                                        temp_list.append(temp)
+                                        temp=-99
+                                else:
+                                    mod_row.append(row[i])
+                    elif dt.datetime(row[j+1][0],row[j+1][1],row[j+1][2],row[j+1][3])-dt.datetime(row[i][0],row[i][1],row[i][2],row[i][3])==dt.timedelta(hours=1) and dist<=36+res:
+                        mod_row.append(row[i])
+            i+=1
+            
         import csv
-        filename = '/home/picard/git_repo/results/mov_records_'+str(year)+'.csv'
+        filename = '/home/picard/git_repo/index_results/mov_records_'+str(year)+'.csv'
         with open(filename, 'w') as csvfile: 
             csvwriter = csv.writer(csvfile)  
             csvwriter.writerow(fields)
-            csvwriter.writerows(rows)
+            csvwriter.writerows(mod_row)
         csvfile.close()
