@@ -9,6 +9,8 @@ This module contains WRF related functions
 import numpy as np
 from math import prod
 from netCDF4 import Dataset
+from osgeo import gdal
+from enterprise.DeckFour import GeoAnalytics
 
 ######################### global functions ####################################
 
@@ -85,6 +87,40 @@ class wps:
             lats2.append(lats1[k]+sn[k]*prod(pg_rat[:k+1])/111111)
             ax.plot([lons1[k],lons2[k],lons2[k],lons1[k],lons1[k]],[lats1[k],lats1[k],lats2[k],lats2[k],lats1[k]])
         return ax
+    
+    def inject_lulc(input_lulc,exchange_pairs_arr,output_lulc='geo_em.d01.nc'):
+        ''' Give the prepared lulc map in tiff format as input.
+            Exchange pairs_arr should be an array of to be interchanged values prefererably an
+            array of tuples, e.g. () '''
+        data=input_lulc
+        ds=gdal.Open(data)
+        lulc=ds.GetRasterBand(1).ReadAsArray()
+        lon,lat=GeoAnalytics.extract_coord(ds)
+        lat=np.flip(lat)
+        lulc=np.flipud(lulc)       
+        for pair in exchange_pairs_arr:
+            lulc[lulc==pair[0]] = pair[1]       
+        nc = Dataset(output_lulc,'r+')
+        lat2=np.squeeze(nc.variables['XLAT_M'])
+        lon2=np.squeeze(nc.variables['XLONG_M'])
+        lu_val= np.squeeze(nc.variables['LU_INDEX'][:])
+        lon_max=np.max(lon2)
+        lon_min=np.min(lon2)
+        lat_max=np.max(lat2)
+        lat_min=np.min(lat2)
+        for i in range(len(lon)):
+            if lon[i]<=lon_max and lon[i]>=lon_min:
+                for j in range(len(lat)):
+                    if lat[j]<=lat_max and lat[j]>=lat_min:
+                        dis=np.abs(lon2[0,:]-lon[i])
+                        ii=np.where(dis==np.nanmin(dis))[0][0]
+                        dis=np.abs(lat2[:,0]-lat[j])
+                        jj=np.where(dis==np.nanmin(dis))[0][0]
+                        lu_val[jj,ii]=lulc[j,i]
+        lu_val=np.expand_dims(lu_val, axis=0)
+        nc.variables['LU_INDEX'][:] = lu_val
+        print('injection complete')
+        return lu_val
 
 class assimilation:
     ''' This class contains scripts related to data assimilation '''
