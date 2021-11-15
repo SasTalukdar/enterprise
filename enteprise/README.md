@@ -23,7 +23,7 @@ Star(t)Date 2021.07.01.12.30
                         shape_file_path (string/geometry):  shape file to be plotted in the figure (can be path or a geometry object)
                         title (string): (optional) title for the figure
 
-####            initialize_subplots(lat1, lat2, lon1, lon2, plot_no=1, res=0, lb_size=14, rotate=0, linewidth=0.8, dec_lim=0, shape_file_path=None, add_label=False, titles=None,
+####            initialize_subplots(lat1, lat2, lon1, lon2, plot_no=1, res=0, lb_size=14, rotate=0, linewidth=0.8, dec_lim=0, shape_file_path=None,                               add_label=False, titles=None,
                             fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
 
                 Return: figure, list of geoAxis
