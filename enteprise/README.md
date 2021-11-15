@@ -10,7 +10,8 @@ Star(t)Date 2021.07.01.12.30
 
 Return: geoAxis
 
-      # Initialize a geoaxis with background map for ploting
+Initialize a geoaxis with background map for ploting
+      
       lat1 (float): minimum latitude
       lat2 (float): maximum latitude
       lon1 (float): minimum longitude
@@ -27,7 +28,8 @@ Return: geoAxis
 
 Return: figure, list of geoAxis
 
-      ** Initialize subplots **
+Initialize subplots 
+
       lat1 (float): minimum latitude
       lat2 (float): (float) maximum latitude
       lon1 (float): minimum longitude
@@ -50,7 +52,8 @@ Return: figure, list of geoAxis
 
 Return: figure, Axis
 
-      # Polar contour plot using lat, lon matrices
+Polar contour plot using lat, lon matrices
+
       lon (array): longitude array
       lat (array): latitude array
       val (2d array): values to be ploted
