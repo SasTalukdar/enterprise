@@ -4,5 +4,5 @@ A package that aims to make computation and visualization simpler so that the us
 # To install enterprise use:
 
     git clone https://github.com/SasTalukdar/enterprise
-    cd enterprise/enterprise
+    cd enterprise/enteprise
     pip install .
