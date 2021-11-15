@@ -24,8 +24,8 @@ Star(t)Date 2021.07.01.12.30
                         title (string): (optional) title for the figure
 
 ####            initialize_subplots(lat1,lat2,lon1,lon2,plot_no=1,res=0,lb_size=14,rotate=0,
-                            linewidth=0.8,dec_lim=0,shape_file_path=None,add_label=False,titles=None,
-                            fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
+####                        linewidth=0.8,dec_lim=0,shape_file_path=None,add_label=False,titles=None,
+####                        fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
 
                 Return: figure, list of geoAxis
 
@@ -49,7 +49,7 @@ Star(t)Date 2021.07.01.12.30
                         coastlines (True/False): (optional) add coastlines
 
 ####           polar_plot(lon,lat,val,lon0=None,lat0=None,r_lim=None,t_lim=None,th_off=np.pi/2.0,
-                          t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5],r_tick=None,r_pos=None,c_map='jet')
+####                      t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5],r_tick=None,r_pos=None,c_map='jet')
 
                Return: figure, Axis
 
