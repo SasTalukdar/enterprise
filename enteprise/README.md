@@ -1,12 +1,12 @@
 Star(t)Date 2021.07.01.12.30  
-Entry 1 : To install enterprise use "pip3 install ."  
+# Entry 1 : To install enterprise use "pip3 install ."  
 -----------------------------------------------------------------------------------------------  
 -----------------------------------------------------------------------------------------------  
-Captains log: DeckOne is used for various plots  
+## Captains log: DeckOne is used for various plots  
          
-        **SpatialPlots** : can be used to initialize spatial plot axes and domain
+###        SpatialPlots : can be used to initialize spatial plot axes and domain
                
-                initialize(lat1,lat2,lon1,lon2,res=0,lb_size=14,rotate=0,linewidth=0.8,dec_lim=0,shape_file_path=None,title=None):
+####            initialize(lat1,lat2,lon1,lon2,res=0,lb_size=14,rotate=0,linewidth=0.8,dec_lim=0,shape_file_path=None,title=None):
                         
                 Return: geoAxis
                         
@@ -23,7 +23,7 @@ Captains log: DeckOne is used for various plots
                         shape_file_path (string/geometry):  shape file to be plotted in the figure (can be path or a geometry object)
                         title (string): (optional) title for the figure
 
-                initialize_subplots(lat1,lat2,lon1,lon2,plot_no=1,res=0,lb_size=14,rotate=0,
+####            initialize_subplots(lat1,lat2,lon1,lon2,plot_no=1,res=0,lb_size=14,rotate=0,
                             linewidth=0.8,dec_lim=0,shape_file_path=None,add_label=False,titles=None,
                             fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
 
@@ -48,7 +48,7 @@ Captains log: DeckOne is used for various plots
                         y_nos (integer): (optional) number of plots in the y direction
                         coastlines (True/False): (optional) add coastlines
 
-               polar_plot(lon,lat,val,lon0=None,lat0=None,r_lim=None,t_lim=None,th_off=np.pi/2.0,
+####           polar_plot(lon,lat,val,lon0=None,lat0=None,r_lim=None,t_lim=None,th_off=np.pi/2.0,
                           t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5],r_tick=None,r_pos=None,c_map='jet')
 
                Return: figure, Axis
