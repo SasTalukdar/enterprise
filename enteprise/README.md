@@ -28,7 +28,7 @@ fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
 
 Return: figure, list of geoAxis
 
-      > Initialize subplots 
+      ** Initialize subplots **
       lat1 (float): minimum latitude
       lat2 (float): (float) maximum latitude
       lon1 (float): minimum longitude
