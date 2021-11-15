@@ -24,7 +24,7 @@ Initialize a geoaxis with background map for ploting
       shape_file_path (string/geometry):  shape file to be plotted in the figure (can be path or a geometry object)
       title (string): (optional) title for the figure
 
-####            initialize_subplots(lat1, lat2, lon1, lon2, plot_no=1, res=0, lb_size=14, rotate=0, linewidth=0.8, dec_lim=0, shape_file_path=None, add_label=False, titles=None, fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
+####   initialize_subplots(lat1, lat2, lon1, lon2, plot_no=1, res=0, lb_size=14, rotate=0, linewidth=0.8, dec_lim=0, shape_file_path=None, add_label=False, titles=None, fig_sg=None,x_nos=None,y_nos=None, coastlines=False):
 
 Return: figure, list of geoAxis
 
@@ -48,7 +48,7 @@ Initialize subplots
       y_nos (integer): (optional) number of plots in the y direction
       coastlines (True/False): (optional) add coastlines
 
-####           polar_plot(lon, lat, val,lon0=None, lat0=None, r_lim=None, t_lim=None, th_off=np.pi/2.0, t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5], r_tick=None, r_pos=None, c_map='jet')
+####   polar_plot(lon, lat, val,lon0=None, lat0=None, r_lim=None, t_lim=None, th_off=np.pi/2.0, t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5], r_tick=None, r_pos=None, c_map='jet')
 
 Return: figure, Axis
 
@@ -66,3 +66,18 @@ Polar contour plot using lat, lon matrices
       r_tick (array): (optional) radial ticks
       r_pos (float): (optional) position of r ticks in radian
       c_map (string): (optional) colormap for plotting
+
+###        AnalyticalPlots : can be used for analytical plots
+####  ContouredScatter(x, y, bins=100, level=30, cmap='jet', savename='contoured_scatter', limits=None)
+
+Return None
+
+Contoured scatter plot for large sample sizes
+
+         x (array): array
+         y (array): array
+         bins (integer): bins
+         level (integer): number of contour levels
+         camp (string): colormap
+         savename (string): filename to be saved as
+         limits (array of size 4): the limits for the plots ([x_min, x_max, y_min, y_max])
