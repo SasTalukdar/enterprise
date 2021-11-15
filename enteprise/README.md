@@ -78,3 +78,6 @@ Contoured scatter plot for large sample sizes
          camp (string): colormap
          savename (string): filename to be saved as
          limits (array of size 4): the limits for the plots ([x_min, x_max, y_min, y_max])
+
+
+# The contruction of the documentation is in progress. Please visit again in a few days.
