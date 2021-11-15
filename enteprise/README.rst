@@ -4,7 +4,7 @@
 |-----------------------------------------------------------------------------------------------  
 |Captains log: DeckOne is used for various plots  
 |         
-|        **SpatialPlots** : can be used to initialize spatial plot axes and domain
+|        **SpatialPlots** : can be used to initialize spatial plot axes and domain |br|
 |                
 |                initialize(lat1,lat2,lon1,lon2,res=0,lb_size=14,rotate=0,linewidth=0.8,dec_lim=0,shape_file_path=None,title=None):
 |                        
