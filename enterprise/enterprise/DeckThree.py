@@ -67,6 +67,18 @@ class statistics:
         std_err=sem(data)
         h=std_err*t.ppf((1+confidence)/2,n-1)
         return(h)
+    
+    def remove_outlier(data):
+        ''' following http://mathcenter.oxford.emory.edu/site/math117/shapeCenterAndSpread/ '''
+        data=np.array(data)
+        data=data[~(np.isnan(data))]
+        q3=np.percentile(data, 75)
+        q1=np.percentile(data, 25)
+        iqr=q3-q1
+        mn=q1-1.5*iqr
+        mx=q3+1.5*iqr
+        data1=data[((data<=mx)&(data>=mn))]
+        return data1
 
 class cyclone:
     def vel2polvel(u,v,lat,lon,lat0=None,lon0=None):
