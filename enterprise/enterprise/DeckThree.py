@@ -2,7 +2,7 @@
 Created on Fri Jul  2 23:43:40 2021
 @author: picard
 
-This module contain analysis functions
+This module contains analysis functions
 """
 
 import numpy as np
@@ -62,6 +62,7 @@ class statistics:
         return np.mean(exp-obs)
     
     def con_int(data, confidence = 0.95):
+        data=np.array(data)
         data=data[~(np.isnan(data))]
         n=len(data)
         std_err=sem(data)
@@ -71,13 +72,13 @@ class statistics:
     def remove_outlier(data):
         ''' following http://mathcenter.oxford.emory.edu/site/math117/shapeCenterAndSpread/ '''
         data=np.array(data)
-        data=data[~(np.isnan(data))]
         q3=np.percentile(data, 75)
         q1=np.percentile(data, 25)
         iqr=q3-q1
         mn=q1-1.5*iqr
         mx=q3+1.5*iqr
-        data1=data[((data<=mx)&(data>=mn))]
+        data[((data>mx)|(data<mn))]=np.nan
+        data1=data
         return data1
 
 class cyclone:
