@@ -8,6 +8,7 @@ This module contain analysis functions
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 from scipy.stats.stats import pearsonr
+from scipy.stats import sem, t
 from sklearn.metrics import mean_squared_error
 from scipy import ndimage
 import netCDF4 as nc
@@ -59,6 +60,13 @@ class statistics:
         exp=exp[~(np.isnan(exp))]
         obs=obs[~(np.isnan(obs))]
         return np.mean(exp-obs)
+    
+    def con_int(data, confidence = 0.95):
+        data=data[~(np.isnan(data))]
+        n=len(data)
+        std_err=sem(data)
+        h=std_err*t.ppf((1+confidence)/2,n-1)
+        return(h)
 
 class cyclone:
     def vel2polvel(u,v,lat,lon,lat0=None,lon0=None):
