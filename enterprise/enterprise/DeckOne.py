@@ -5,6 +5,8 @@ Created on Thu Jul  1 15:44:47 2021
 This module contains plotting related fuctions
 
 """
+import os
+from enterprise import HoloDeck
 import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -22,7 +24,7 @@ plt.rcParams["patch.linewidth"] =3
 
 ############################ files ###########################################
 
-default_shape_file_path='/home/picard/maps-master/States/Admin2.shp'
+default_shape_file_path=HoloDeck.__file__[:-12]+'/data/shape_files/Admin2.shp'
 
 ############################## global functions ###############################
 
