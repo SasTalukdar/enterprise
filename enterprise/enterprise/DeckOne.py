@@ -175,7 +175,7 @@ class SpatialPlots:
                             hspace=0.2,)
         return fig,ax
     
-    def polar_plot(lon,lat,val,lon0=None,lat0=None,r_lim=None,t_lim=None,th_off=np.pi/2.0,t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5],r_tick=None,r_pos=None,c_map='jet'):
+    def polar_plot(lon,lat,val,lon0=None,lat0=None,r_lim=None,t_lim=None,th_off=np.pi/2.0,t_tick=[0,np.pi*0.5,np.pi,np.pi*1.5],r_tick=None,r_pos=None,c_map='jet',levels=10):
         if lon0 is None:
             if len(np.shape(lon))==2:
                 lon0=np.nanmean(lon,axis=1)[0]
@@ -193,7 +193,7 @@ class SpatialPlots:
             ax.set_ylim(0,r_lim)
         if t_lim is not None:
             ax.set_xlim(0,t_lim)
-        ax.contourf(t,r,val,cmap=c_map)
+        ax.contourf(t,r,val,cmap=c_map,levels=levels)
         ax.set_theta_direction(-1)
         # ax.set_theta_zero_location("N")
         ax.set_theta_offset(th_off)

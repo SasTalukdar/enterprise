@@ -10,6 +10,11 @@ import cartopy.io.shapereader as shpreader
 import shapely.geometry as sgeom
 from shapely.ops import unary_union
 from shapely.prepared import prep
+from enterprise import HoloDeck
+
+############################ files ###########################################
+
+default_shape_file_path=HoloDeck.__file__[:-12]+'/data/shape_files/Admin2.shp'
 
 ###############################################################################
 
@@ -41,7 +46,7 @@ class GeoAnalytics:
         lats=YOrigin+np.arange(0,nr)*pixelHeight
         return lons,lats
     
-    def is_inside(latitude, longitude, shapefile='/home/picard/maps-master/IndiaBoundary/ind.shp'):
+    def is_inside(latitude, longitude, shapefile=default_shape_file_path):
         ind = shapefile
         if type(ind) == str:
             ind_geom = unary_union(list(shpreader.Reader(ind).geometries()))
