@@ -65,12 +65,24 @@ class statistics:
         obs=obs[~(np.isnan(obs))]
         return np.mean(exp-obs)
     
-    def con_int(data, confidence = 0.95):
+    def con_int(data, confidence = 0.95, axis=0):
         data=np.array(data)
-        data=data[~(np.isnan(data))]
-        n=len(data)
-        std_err=sem(data)
-        h=std_err*t.ppf((1+confidence)/2,n-1)
+        if len(np.shape(data)) == 2:
+            h=np.zeros(np.shape(data)[1-axis])
+            for i in range(np.shape(data)[1-axis]):
+                if axis==0:
+                    tmp=data[:,i]
+                else:
+                    tmp=data[i,:]
+                tmp=tmp[~(np.isnan(tmp))]
+                n=len(tmp)
+                std_err=sem(tmp)
+                h[i]=std_err*t.ppf((1+confidence)/2,n-1)
+        else:   
+            data=data[~(np.isnan(data))]
+            n=len(data)
+            std_err=sem(data)
+            h=std_err*t.ppf((1+confidence)/2,n-1)
         return(h)
     
     def remove_outlier(data):
