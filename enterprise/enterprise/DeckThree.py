@@ -26,6 +26,30 @@ class interpolate:
         interpolating_function = RegularGridInterpolator((y, x), data)
         yv, xv = np.meshgrid(np.linspace(0, 1.0/m, out_y), np.linspace(0, 1.0/m, out_x))
         return interpolating_function((xv, yv))
+    
+    def knn_interpolator(data, out_x, out_y):
+        x=data.shape[1]
+        y=data.shape[0]
+        if out_x>x or out_y>y:
+            print('output size not valid')
+            return None
+        out_data=np.ones((out_y,out_x))*np.nan
+        x_dif=round(x*0.5/out_x)
+        y_dif=round(y*0.5/out_y)
+        for i in range(out_y):
+            for j in range(out_x):
+                i_start=(2*i-1)*x_dif
+                j_start=(2*j-1)*y_dif
+                if i_start<0:
+                    i_start=0
+                if j_start<0:
+                    j_start=0
+                temp=data[i_start:(2*i+1)*x_dif+1,j_start:(2*j+1)*y_dif+1]
+                try:
+                    out_data[i,j]=np.bincount(temp.flatten()).argmax()
+                except:
+                    pass
+        return out_data
 
 class statistics:
     def corr(obs,exp):
