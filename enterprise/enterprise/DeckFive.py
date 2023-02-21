@@ -31,9 +31,10 @@ class rsrw :
             'vti','tti','cape','cape_vir','cin','cin_vir','eqlb_level','eql_vir','lfc','lfc_vir',
             'brn','brn_cape','lcl_t','lcl_p','m_pot_t','m_mx_rat','prec']
         df = pd.DataFrame(columns=variables)
+        start=False
         for i, line in enumerate(data):
             if 'Observations at' in line :
-                if i > 0 :
+                if start :
                     df = pd.DataFrame(np.insert(df.values, len(df.index), values = [station,dt.date(year,mon,day),
                                      time,lat,lon,elev,show,li,lift,sweat,ki,cti,vti,tti,cape,cape_vir,cin,cin_vir,
                                      eqlb_level,eql_vir,lfc,lfc_vir,brn,brn_cape,lcl_t,lcl_p,m_pot_t,m_mx_rat,prec], axis=0))
@@ -47,6 +48,7 @@ class rsrw :
                 [lat,lon,elev,show,li,lift,sweat,ki,cti,vti,tti,cape,cape_vir,
                   cin,cin_vir,eqlb_level,eql_vir,lfc,lfc_vir,brn,brn_cape,lcl_t,
                   lcl_p,m_pot_t,m_mx_rat,prec] = np.nan*np.ones(26)
+                start = True
             elif 'Station number' in line:
                 station=float(line[line.index('number:')+len('number:'):-1])
             elif 'Station latitude' in line:
