@@ -49,59 +49,59 @@ class rsrw :
                   cin,cin_vir,eqlb_level,eql_vir,lfc,lfc_vir,brn,brn_cape,lcl_t,
                   lcl_p,m_pot_t,m_mx_rat,prec] = np.nan*np.ones(26)
                 start = True
-            elif 'Station number' in line:
+            elif 'Station number' in line and '****' not in line:
                 station=float(line[line.index('number:')+len('number:'):-1])
-            elif 'Station latitude' in line:
+            elif 'Station latitude' in line and '****' not in line:
                 lat=float(line[line.index('latitude:')+len('latitude:'):-1])
-            elif 'Station longitude' in line:
+            elif 'Station longitude' in line and '****' not in line:
                 lon=float(line[line.index('longitude:')+len('longitude:'):-1])
-            elif 'Station elevation' in line:
+            elif 'Station elevation' in line and '****' not in line:
                 elev=float(line[line.index('elevation:')+len('elevation:'):-1])
-            elif 'Showalter index' in line:
+            elif 'Showalter index' in line and '****' not in line:
                 show=float(line[line.index('index:')+len('index:'):-1])
-            elif 'Lifted index' in line:
+            elif 'Lifted index' in line and '****' not in line:
                 li=float(line[line.index('index:')+len('index:'):-1])
-            elif 'LIFT computed using virtual temperature:' in line:
+            elif 'LIFT computed using virtual temperature:' in line and '****' not in line:
                 lift=float(line[line.index('temperature:')+len('temperature:'):-1])
-            elif 'SWEAT index' in line:
+            elif 'SWEAT index' in line and '****' not in line:
                 sweat=float(line[line.index('index:')+len('index:'):-1])
-            elif 'K index' in line:
+            elif 'K index' in line and '****' not in line:
                 ki=float(line[line.index('index:')+len('index:'):-1])
-            elif 'Cross totals index:' in line:
+            elif 'Cross totals index:' in line and '****' not in line:
                 cti=float(line[line.index('index:')+len('index:'):-1])
-            elif 'Vertical totals index:' in line:
+            elif 'Vertical totals index:' in line and '****' not in line:
                 vti=float(line[line.index('index:')+len('index:'):-1])
-            elif 'Totals totals index:' in line:
+            elif 'Totals totals index:' in line and '****' not in line:
                 tti=float(line[line.index('index:')+len('index:'):-1])
-            elif 'Convective Available Potential Energy:' in line:
+            elif 'Convective Available Potential Energy:' in line and '****' not in line:
                 cape=float(line[line.index('Energy:')+len('Energy:'):-1])
-            elif 'CAPE using virtual temperature:' in line:
+            elif 'CAPE using virtual temperature:' in line and '****' not in line:
                 cape_vir=float(line[line.index('temperature:')+len('temperature:'):-1])
-            elif 'Convective Inhibition:' in line:
+            elif 'Convective Inhibition:' in line and '****' not in line:
                 cin=float(line[line.index('Inhibition:')+len('Inhibition:'):-1])
-            elif 'CINS using virtual temperature:' in line:
+            elif 'CINS using virtual temperature:' in line and '****' not in line:
                 cin_vir=float(line[line.index('temperature:')+len('temperature:'):-1])    
-            elif 'Equilibrum Level:' in line:
+            elif 'Equilibrum Level:' in line and '****' not in line:
                 eqlb_level=float(line[line.index('Level:')+len('Level:'):-1])
-            elif 'Equilibrum Level using virtual temperature:' in line:
+            elif 'Equilibrum Level using virtual temperature:' in line and '****' not in line:
                 eql_vir=float(line[line.index('temperature:')+len('temperature:'):-1])
-            elif 'Level of Free Convection:' in line:
+            elif 'Level of Free Convection:' in line and '****' not in line:
                 lfc=float(line[line.index('Convection:')+len('Convection:'):-1])
-            elif 'LFCT using virtual temperature:' in line:
+            elif 'LFCT using virtual temperature:' in line and '****' not in line:
                 lfc_vir=float(line[line.index('temperature:')+len('temperature:'):-1])
-            elif 'Bulk Richardson Number:' in line and '**' not in line:
+            elif 'Bulk Richardson Number:' in line and '****' not in line:
                 brn=float(line[line.index('Number:')+len('Number:'):-1])
-            elif 'Bulk Richardson Number using CAPV:' in line and '**' not in line:
+            elif 'Bulk Richardson Number using CAPV:' in line  and '****' not in line:
                 brn_cape=float(line[line.index('CAPV:')+len('CAPV:'):-1])
-            elif 'Temp [K] of the Lifted Condensation Level:' in line:
+            elif 'Temp [K] of the Lifted Condensation Level:' in line and '****' not in line:
                 lcl_t=float(line[line.index('Level:')+len('Level:'):-1])
-            elif 'Pres [hPa] of the Lifted Condensation Level:' in line:
+            elif 'Pres [hPa] of the Lifted Condensation Level:' in line and '****' not in line:
                 lcl_p=float(line[line.index('Level:')+len('Level:'):-1])
-            elif 'Mean mixed layer potential temperature:' in line:
+            elif 'Mean mixed layer potential temperature:' in line and '****' not in line:
                 m_pot_t=float(line[line.index('temperature:')+len('temperature:'):-1])
-            elif 'Mean mixed layer mixing ratio:' in line:
+            elif 'Mean mixed layer mixing ratio:' in line and '****' not in line:
                 m_mx_rat=float(line[line.index('ratio:')+len('ratio:'):-1])
-            elif 'Precipitable water [mm] for entire sounding:' in line:
+            elif 'Precipitable water [mm] for entire sounding:' in line and '****' not in line:
                 prec=float(line[line.index('sounding:')+len('sounding:'):-1])
         return df
     
