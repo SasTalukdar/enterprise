@@ -141,6 +141,10 @@ class statistics:
     def mean_sqrd_error(obs, exp):
         return np.sum((exp-obs)**2)/len(obs.flatten())
     
+    def critical_sucess_index(obs, exp, th):
+        hit, miss, false_alarm, corr_neg = contigency(obs, exp, th)
+        return hit/(hit+miss+false_alarm)
+    
     def con_int(data, confidence = 0.95, axis=0):
         data=np.array(data)
         if len(np.shape(data)) == 2:
