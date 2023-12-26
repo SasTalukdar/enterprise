@@ -86,6 +86,61 @@ class statistics:
         obs=obs[~(np.isnan(obs))]
         return np.mean(exp-obs)
     
+    def contigency(obs, exp, th):
+        exp=exp.flatten()
+        obs=obs.flatten()
+        for i in range(len(obs)):
+            if np.isnan(obs[i]) == True:
+                exp[i]=np.nan
+            elif np.isnan(exp[i]) == True:
+                obs[i]=np.nan
+        exp[exp<th]=0
+        exp[exp>=th]=1
+        obs[obs<th]=0 
+        obs[obs>=th]=1
+        
+        exp=exp[~(np.isnan(exp))]
+        obs=obs[~(np.isnan(obs))]
+        
+        hit=exp[obs==1]
+        hit=len(hit[hit==1])
+        miss=exp[obs==1]
+        miss=len(miss[miss==0])
+        false_alarm=obs[exp==1]
+        false_alarm=len(false_alarm[false_alarm==0])
+        corr_neg=obs[exp==0]
+        corr_neg=len(corr_neg[corr_neg==0])  
+        return hit, miss, false_alarm, corr_neg
+
+    def accuracy(obs, exp, th):
+        hit, miss, false_alarm, corr_neg = contigency(obs, exp, th)
+        return (hit+corr_neg)/len(obs.flatten())
+        
+    def prob_of_detection(obs, exp, th):
+        hit, miss, false_alarm, corr_neg = contigency(obs, exp, th)
+        return hit/(hit+miss)
+
+    def false_alarm_ratio(obs, exp, th):
+        hit, miss, false_alarm, corr_neg = contigency(obs, exp, th)
+        return false_alarm/(hit+false_alarm)
+
+    def false_alarm_rate(obs, exp, th):
+        hit, miss, false_alarm, corr_neg = contigency(obs, exp, th)
+        return false_alarm/(corr_neg+false_alarm)
+
+    def success_ratio(obs, exp, th):
+        hit, miss, false_alarm, corr_neg = contigency(obs, exp, th)
+        return hit/(hit+false_alarm)
+
+    def mean_error(obs, exp):
+        return np.sum(exp-obs)/len(obs.flatten())
+
+    def mean_abs_error(obs, exp):
+        return np.sum(np.abs(exp-obs))/len(obs.flatten())
+
+    def mean_sqrd_error(obs, exp):
+        return np.sum((exp-obs)**2)/len(obs.flatten())
+    
     def con_int(data, confidence = 0.95, axis=0):
         data=np.array(data)
         if len(np.shape(data)) == 2:
